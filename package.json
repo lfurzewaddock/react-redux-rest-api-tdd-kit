@@ -1,0 +1,30 @@
+{
+  "name": "react-redux-rest-api-tdd-kit",
+  "version": "1.0.0",
+  "description": "React Redux REST API TDD Kit",
+  "main": "index.js",
+  "scripts": {
+    "root:api:start:dev": "pnpm run -r api:start:dev",
+    "root:ui:start:dev": "pnpm run -r ui:start:dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lfurzewaddock/react-redux-rest-api-tdd-kit"
+  },
+  "author": "Leo Furze-Waddock <leo@furze-waddock.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/lfurzewaddockreact-redux-rest-api-tdd-kit#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "minimist": "^1.2.0",
+    "opn": "^6.0.0"
+  }
+}

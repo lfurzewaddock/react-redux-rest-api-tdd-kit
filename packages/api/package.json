@@ -1,0 +1,21 @@
+{
+  "name": "react-redux-rest-api-tdd-kit",
+  "version": "1.0.0",
+  "description": "React Redux REST API TDD Kit",
+  "main": "index.js",
+  "scripts": {
+    "api:start:dev": "node ./src/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lfurzewaddock/react-redux-rest-api-tdd-kit"
+  },
+  "author": "Leo Furze-Waddock <leo@furze-waddock.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/lfurzewaddock/react-redux-rest-api-tdd-kit#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fastify": "^2.11.0",
+    "fastify-cors": "^3.0.1"
+  }
+}
