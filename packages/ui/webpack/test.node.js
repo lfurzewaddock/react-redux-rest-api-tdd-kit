@@ -185,7 +185,7 @@ module.exports = {
       DEBUG: true,
     }),
     new CleanWebpackPlugin({
-      root: path.resolve(__dirname, "../test.node"),
+      root: path.resolve(__dirname, "../test_build_node"),
     }),
     new webpack.SourceMapDevToolPlugin({
       test: /\.js$/,
@@ -195,6 +195,6 @@ module.exports = {
   ],
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "../test.node"),
+    path: path.resolve(__dirname, "../test_build_node"),
   },
 };

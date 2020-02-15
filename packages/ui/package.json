@@ -6,7 +6,7 @@
   "scripts": {
     "ui:start:dev": "webpack-dev-server --mode development --config webpack/dev --open",
     "ui:build:test:node": "BABEL_ENV=testIntegration node_modules/.bin/webpack --mode development --config ./webpack/test.node",
-    "ui:integration:test": "pnpm run ui:build:test:node && node_modules/.bin/tape --require ./test/integration/jsdom-setup test.node/app.bundle.js | node_modules/.bin/tap-spec"
+    "ui:integration:test": "pnpm run ui:build:test:node && node_modules/.bin/tape --require ./test/integration/jsdom-setup test_build_node/app.bundle.js | node_modules/.bin/tap-spec"
   },
   "repository": {
     "type": "git",

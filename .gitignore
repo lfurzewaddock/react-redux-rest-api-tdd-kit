@@ -19,10 +19,11 @@ dist
 
 # temporary files
 *.tmp
+test_build_node
 
 # log files
 *.log
 
 # private environment variables
-*.env
+.env
 app-config.js
