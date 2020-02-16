@@ -1,5 +1,5 @@
 import * as constants from "../constants";
-import ajaxBase from "../../ajax-base";
+import ajaxBase from "../../ajax-base-api-app";
 
 export const getDataBegin = () => ({
   type: constants.CURRENCY_OPTIONS_LOAD_REQUEST,
