@@ -9,7 +9,8 @@ import "./cont-chart.css";
 
 import CompHeader from "./CompHeader";
 
-import * as actions from "./modules/currencies/actions/fetch";
+import * as actionsCurrencies from "./modules/currencies/actions/fetch";
+import * as actionsBitcoinPricePoints from "./modules/bitcoin-price-points/actions/fetch";
 
 class ContChart extends Component {
   constructor(props) {
@@ -20,17 +21,19 @@ class ContChart extends Component {
     Chart.defaults.global.defaultFontSize = 16;
 
     this.state = {
-      historicalData: null,
       selectedCurrency: "GBP",
-      baseUrl: "https://api.coindesk.com/",
     };
     this.onCurrencySelect = this.onCurrencySelect.bind(this);
   }
 
   componentDidMount() {
-    this.getBitcoinData();
-    const { getCurrencyDataHandler } = this.props;
+    const { selectedCurrency } = this.state;
+    const {
+      getCurrencyDataHandler,
+      getBitcoinPricePointsDataHandler,
+    } = this.props;
     getCurrencyDataHandler();
+    getBitcoinPricePointsDataHandler(selectedCurrency);
   }
 
   onCurrencySelect(e) {
@@ -41,18 +44,10 @@ class ContChart extends Component {
     this.setState({ selectedCurrency }, this.getBitcoinData);
   }
 
-  getBitcoinData() {
-    const { baseUrl, selectedCurrency } = this.state;
-
-    fetch(`${baseUrl}v1/bpi/historical/close.json?currency=${selectedCurrency}`)
-      .then(response => response.json())
-      .then(historicalData => this.setState({ historicalData }))
-      .catch(e => e);
-  }
-
   formatChartData() {
-    const { historicalData } = this.state;
-    const { bpi } = historicalData;
+    const { bitcoinPricePoints } = this.props;
+    const { pricePoints } = bitcoinPricePoints;
+    const { bpi } = pricePoints;
 
     return {
       labels: _.map(_.keys(bpi), date => moment(date).format("ll")),
@@ -83,9 +78,15 @@ class ContChart extends Component {
   }
 
   render() {
-    const { historicalData, selectedCurrency } = this.state;
-    const { currency } = this.props;
-    if (historicalData) {
+    const { selectedCurrency } = this.state;
+    const { currency, bitcoinPricePoints } = this.props;
+    if (
+      !bitcoinPricePoints.isPending &&
+      !(
+        Object.entries(bitcoinPricePoints.pricePoints).length === 0 &&
+        bitcoinPricePoints.pricePoints.constructor === Object
+      )
+    ) {
       return (
         <div className="app">
           <CompHeader title="BITCOIN PRICE INDEX" />
@@ -133,11 +134,19 @@ class ContChart extends Component {
 
 const mapStateToProps = state => ({
   currency: state.currency,
+  bitcoinPricePoints: state.bitcoinPricePoints,
 });
 
 const mapDispatchToProps = dispatch => ({
   getCurrencyDataHandler: () => {
-    dispatch(actions.getCurrencyDataHandler());
+    dispatch(actionsCurrencies.getCurrencyDataHandler());
+  },
+  getBitcoinPricePointsDataHandler: selectedCurrency => {
+    dispatch(
+      actionsBitcoinPricePoints.getBitcoinPricePointsDataHandler(
+        selectedCurrency
+      )
+    );
   },
 });
 
@@ -147,7 +156,20 @@ ContChart.propTypes = {
     errorMsg: PropTypes.string,
     options: PropTypes.array,
   }).isRequired,
+  bitcoinPricePoints: PropTypes.shape({
+    isPending: PropTypes.bool.isRequired,
+    errorMsg: PropTypes.string,
+    pricePoints: PropTypes.shape({
+      bpi: PropTypes.objectOf(PropTypes.number),
+      disclaimer: PropTypes.string,
+      time: PropTypes.shape({
+        updated: PropTypes.string.isRequired,
+        updatedISO: PropTypes.string.isRequired,
+      }),
+    }),
+  }).isRequired,
   getCurrencyDataHandler: PropTypes.func.isRequired,
+  getBitcoinPricePointsDataHandler: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContChart);
