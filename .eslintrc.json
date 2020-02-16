@@ -22,7 +22,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": ["./bin/**/*"]
+        "devDependencies": ["./bin/**/*", "**/webpack/*"]
       }
     ],
     "no-param-reassign": [

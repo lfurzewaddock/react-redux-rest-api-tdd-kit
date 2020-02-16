@@ -1,12 +1,8 @@
 "use strict";
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// eslint-disable-next-line import/no-extraneous-dependencies
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
-// eslint-disable-next-line import/no-extraneous-dependencies
 const webpack = require("webpack");
 const path = require("path");
 
