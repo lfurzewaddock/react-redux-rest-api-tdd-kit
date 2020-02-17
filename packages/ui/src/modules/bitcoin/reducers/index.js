@@ -1,5 +1,5 @@
 import fetch from "./fetch";
 
 export default {
-  bitcoinPricePoints: fetch,
+  bitcoin: fetch,
 };

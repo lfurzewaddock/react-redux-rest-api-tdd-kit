@@ -10,7 +10,7 @@ import "./cont-chart.css";
 import CompHeader from "./CompHeader";
 
 import * as actionsCurrencies from "./modules/currencies/actions/fetch";
-import * as actionsBitcoinPricePoints from "./modules/bitcoin-price-points/actions/fetch";
+import * as actionsBitcoin from "./modules/bitcoin/actions/fetch";
 
 class ContChart extends Component {
   constructor(props) {
@@ -28,12 +28,9 @@ class ContChart extends Component {
 
   componentDidMount() {
     const { selectedCurrency } = this.state;
-    const {
-      getCurrencyDataHandler,
-      getBitcoinPricePointsDataHandler,
-    } = this.props;
+    const { getCurrencyDataHandler, getBitcoinDataHandler } = this.props;
     getCurrencyDataHandler();
-    getBitcoinPricePointsDataHandler(selectedCurrency);
+    getBitcoinDataHandler(selectedCurrency);
   }
 
   onCurrencySelect(e) {
@@ -45,8 +42,8 @@ class ContChart extends Component {
   }
 
   formatChartData() {
-    const { bitcoinPricePoints } = this.props;
-    const { pricePoints } = bitcoinPricePoints;
+    const { bitcoin } = this.props;
+    const { pricePoints } = bitcoin;
     const { bpi } = pricePoints;
 
     return {
@@ -79,12 +76,12 @@ class ContChart extends Component {
 
   render() {
     const { selectedCurrency } = this.state;
-    const { currency, bitcoinPricePoints } = this.props;
+    const { currency, bitcoin } = this.props;
     if (
-      !bitcoinPricePoints.isPending &&
+      !bitcoin.isPending &&
       !(
-        Object.entries(bitcoinPricePoints.pricePoints).length === 0 &&
-        bitcoinPricePoints.pricePoints.constructor === Object
+        Object.entries(bitcoin.pricePoints).length === 0 &&
+        bitcoin.pricePoints.constructor === Object
       )
     ) {
       return (
@@ -134,19 +131,15 @@ class ContChart extends Component {
 
 const mapStateToProps = state => ({
   currency: state.currency,
-  bitcoinPricePoints: state.bitcoinPricePoints,
+  bitcoin: state.bitcoin,
 });
 
 const mapDispatchToProps = dispatch => ({
   getCurrencyDataHandler: () => {
     dispatch(actionsCurrencies.getCurrencyDataHandler());
   },
-  getBitcoinPricePointsDataHandler: selectedCurrency => {
-    dispatch(
-      actionsBitcoinPricePoints.getBitcoinPricePointsDataHandler(
-        selectedCurrency
-      )
-    );
+  getBitcoinDataHandler: selectedCurrency => {
+    dispatch(actionsBitcoin.getBitcoinDataHandler(selectedCurrency));
   },
 });
 
@@ -156,7 +149,7 @@ ContChart.propTypes = {
     errorMsg: PropTypes.string,
     options: PropTypes.array,
   }).isRequired,
-  bitcoinPricePoints: PropTypes.shape({
+  bitcoin: PropTypes.shape({
     isPending: PropTypes.bool.isRequired,
     errorMsg: PropTypes.string,
     pricePoints: PropTypes.shape({
@@ -169,7 +162,7 @@ ContChart.propTypes = {
     }),
   }).isRequired,
   getCurrencyDataHandler: PropTypes.func.isRequired,
-  getBitcoinPricePointsDataHandler: PropTypes.func.isRequired,
+  getBitcoinDataHandler: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContChart);

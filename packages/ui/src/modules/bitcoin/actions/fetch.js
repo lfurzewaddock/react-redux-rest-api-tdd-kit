@@ -15,7 +15,7 @@ export const getDataSuccess = data => ({
   payload: data,
 });
 
-export const getBitcoinPricePointsDataHandler = selectedCurrency => dispatch => {
+export const getBitcoinDataHandler = selectedCurrency => dispatch => {
   dispatch(getDataBegin());
   const url = `/v1/bpi/historical/close.json?currency=${selectedCurrency}`;
   ajaxBaseExchangeApi
