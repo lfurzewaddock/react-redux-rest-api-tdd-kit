@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
 import { Line, Chart } from "react-chartjs-2";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -47,7 +46,7 @@ class ContChart extends Component {
     const { bpi } = pricePoints;
 
     return {
-      labels: _.map(_.keys(bpi), date => moment(date).format("ll")),
+      labels: Object.keys(bpi).map(date => moment(date).format("ll")),
       datasets: [
         {
           label: "Bitcoin",
@@ -68,7 +67,7 @@ class ContChart extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: _.values(bpi),
+          data: Object.values(bpi),
         },
       ],
     };
