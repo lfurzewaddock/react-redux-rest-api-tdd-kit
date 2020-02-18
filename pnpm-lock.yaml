@@ -39,6 +39,7 @@ importers:
       axios: 0.19.2
       chart.js: 2.9.3
       core-js: 3.6.4
+      date-fns: 2.9.0
       moment: 2.24.0
       prop-types: 15.7.2
       raf: 3.4.1
@@ -127,6 +128,7 @@ importers:
       copy-webpack-plugin: ^5.1.1
       core-js: ^3.6.4
       css-loader: ^3.4.2
+      date-fns: ^2.9.0
       enzyme: ^3.11.0
       enzyme-adapter-react-16: ^1.15.2
       eslint: ^6.8.0
@@ -2938,6 +2940,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-YTWYI9se1P55u58gL5GkQHW4P6VJBJ5iBT+B5a7i2Tjadhv52paJG0qHX4A0OR6/t52odI64KP2YvFpkDOi3eQ==
+  /date-fns/2.9.0:
+    dev: false
+    resolution:
+      integrity: sha512-khbFLu/MlzLjEzy9Gh8oY1hNt/Dvxw3J6Rbc28cVoYWQaC1S3YI4xwkF9ZWcjDLscbZlY9hISMr66RFzZagLsA==
   /debug/2.6.9:
     dependencies:
       ms: 2.0.0

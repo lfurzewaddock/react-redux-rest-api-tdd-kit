@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Line, Chart } from "react-chartjs-2";
-import moment from "moment";
+import { format, parseISO } from "date-fns";
 import { connect } from "react-redux";
 
 import "./cont-chart.css";
@@ -46,7 +46,7 @@ class ContChart extends Component {
     const { bpi } = pricePoints;
 
     return {
-      labels: Object.keys(bpi).map(date => moment(date).format("ll")),
+      labels: Object.keys(bpi).map(date => format(parseISO(date), "PP")),
       datasets: [
         {
           label: "Bitcoin",
