@@ -4,6 +4,7 @@
   "description": "React Redux REST API TDD Kit",
   "main": "index.js",
   "scripts": {
+    "ui:tdd": "node_modules/.bin/testem -f testem.node.json",
     "ui:test:debug": "NODE_ENV=debug node --nolazy --inspect-brk=5858 node_modules/tape/bin/tape --require esm test/jsdom.environment.js test/unit/{,**/}/*.test.js",
     "ui:start:dev": "webpack-dev-server --mode development --config webpack/dev --open",
     "ui:build:test:node": "BABEL_ENV=testIntegration node_modules/.bin/webpack --mode development --config ./webpack/test.node",
