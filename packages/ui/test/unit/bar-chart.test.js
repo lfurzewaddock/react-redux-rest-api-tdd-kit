@@ -23,6 +23,7 @@ function setup() {
   }
   const el = globalObj.document.createElement("div");
   el.setAttribute("id", "fixture1");
+  globalObj.document.body.appendChild(el);
 
   const d3 = d3WithoutTransition(globalObj.document);
 
@@ -124,6 +125,49 @@ test("barChart", t => {
       500,
       "with expected height"
     );
+
+    teardown(fixtures);
+    assert.end();
+  });
+  t.test("when buildContainerGroups is called", assert => {
+    const fixtures = setup();
+    const div = fixtures.divElement;
+
+    const { d3 } = fixtures;
+    const { select } = d3;
+
+    const container = select(div);
+    const barChart = barChartHof({ select });
+    container.datum([]).call(barChart());
+
+    const containerGroup = fixtures.document.getElementsByClassName(
+      "container-group"
+    );
+    const chartGroup = fixtures.document.getElementsByClassName("chart-group");
+    const xAxisGroup = fixtures.document.getElementsByClassName("x-axis-group");
+    const yAxisGroup = fixtures.document.getElementsByClassName("y-axis-group");
+
+    assert.equals(
+      containerGroup.length,
+      1,
+      "One container-group element is present"
+    );
+    assert.equals(
+      containerGroup.item(0).nodeName,
+      "g",
+      "with expected nodeName"
+    );
+    assert.equals(
+      containerGroup.item(0).getAttribute("transform"),
+      "translate(40,20)",
+      "with expected transform"
+    );
+    assert.equals(chartGroup.length, 1, "One chart-group element is present");
+    assert.equals(chartGroup.item(0).nodeName, "g", "with expected nodeName");
+    assert.equals(xAxisGroup.length, 1, "One x-axis-group element is present");
+    assert.equals(xAxisGroup.item(0).nodeName, "g", "with expected nodeName");
+    assert.equals(yAxisGroup.length, 1, "One y-axis-group element is present");
+    assert.equals(yAxisGroup.item(0).nodeName, "g", "with expected nodeName");
 
     teardown(fixtures);
     assert.end();
