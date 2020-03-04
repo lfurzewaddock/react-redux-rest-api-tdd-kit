@@ -5,12 +5,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Debug UI Tests: Remote",
+      "address": "localhost",
+      "port": 5858,
+      "localRoot": "${workspaceFolder}/packages/ui",
+      "remoteRoot": "${workspaceFolder}/packages/ui"
+    },
+    {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
+      "name": "Launch Chrome to Degug UI: Remote",
       "url": "http://localhost:8080",
       "sourceMaps": true,
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}/packages/ui"
     }
   ]
 }
