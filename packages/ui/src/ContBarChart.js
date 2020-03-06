@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { select } from "d3";
+import dataset from "../test/fixtures/data";
 
 import barChartHof from "./bar-chart";
 
@@ -14,7 +15,6 @@ class ContBarChart extends Component {
     const svgNode = this.svgRef.current;
     const divNode = this.divRef.current;
     const barChart = barChartHof({ select });
-    const dataset = [];
 
     const svgContainer = select(svgNode);
     svgContainer.datum(dataset).call(barChart());
