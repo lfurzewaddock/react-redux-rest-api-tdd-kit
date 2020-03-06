@@ -1,4 +1,4 @@
-import { select as d3Select } from "d3";
+import { axisBottom, axisLeft, select as d3Select } from "d3";
 import xScale from "./common/x-scale";
 import yScale from "./common/y-scale";
 
@@ -9,11 +9,6 @@ function hof({ select = d3Select } = {}) {
     const height = 500;
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
-
-    // eslint-disable-next-line no-unused-vars
-    let xScaleFn = null;
-    // eslint-disable-next-line no-unused-vars
-    let yScaleFn = null;
     let svg = null;
 
     /**
@@ -21,7 +16,7 @@ function hof({ select = d3Select } = {}) {
      * @private
      */
     function getXScaleFn(data, axisWidth) {
-      xScaleFn = xScale({
+      return xScale({
         chartWidth: axisWidth,
         padding: 0.1,
         domainData: data,
@@ -36,7 +31,7 @@ function hof({ select = d3Select } = {}) {
      * @private
      */
     function getYScaleFn(data, axisHeight) {
-      yScaleFn = yScale({
+      return yScale({
         chartHeight: axisHeight,
         domainData: data,
         getDomainDataFn: d => {
@@ -45,15 +40,35 @@ function hof({ select = d3Select } = {}) {
       });
     }
 
-    return function draw(_selection) {
-      _selection.each(function eachSelection(_data) {
-        const data = _data;
+    /**
+     * Creates the d3 x axis, setting orientations
+     * @private
+     */
+    function buildXAxis(xScaleFn) {
+      return axisBottom(xScaleFn);
+    }
 
-        getXScaleFn(data, chartWidth);
-        getYScaleFn(data, chartHeight);
-        buildSVG(this);
-      });
-    };
+    /**
+     * Creates the d3 y axis, setting orientations
+     * @private
+     */
+    function buildYAxis(yScaleFn) {
+      return axisLeft(yScaleFn).ticks(10, "%");
+    }
+
+    /**
+     * Draws the x and y axis on the svg object within their
+     * respective groups
+     * @private
+     */
+    function drawAxis(xAxis, yAxis, translateHeight) {
+      svg
+        .select(".x-axis-group.axis")
+        .attr("transform", `translate(0, ${translateHeight})`)
+        .call(xAxis);
+
+      svg.select(".y-axis-group.axis").call(yAxis);
+    }
 
     /**
      * Builds containers for the chart, the axis and a wrapper for all of them
@@ -87,6 +102,19 @@ function hof({ select = d3Select } = {}) {
         .attr("width", width)
         .attr("height", height);
     }
+
+    return function draw(_selection) {
+      _selection.each(function eachSelection(_data) {
+        const data = _data;
+
+        buildSVG(this);
+        const xScaleFn = getXScaleFn(data, chartWidth);
+        const yScaleFn = getYScaleFn(data, chartHeight);
+        const xAxis = buildXAxis(xScaleFn);
+        const yAxis = buildYAxis(yScaleFn);
+        drawAxis(xAxis, yAxis, chartHeight);
+      });
+    };
   };
 }
 
