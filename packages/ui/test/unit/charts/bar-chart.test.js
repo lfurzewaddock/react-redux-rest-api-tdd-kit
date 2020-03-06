@@ -3,6 +3,7 @@ import test from "tape";
 import d3WithoutTransition from "../../d3-without-transition";
 import isNodeEnvironment from "../../utils";
 import barChartHof from "../../../src/charts/bar-chart";
+import dataset from "../../fixtures/data";
 
 function setup() {
   const isNode = isNodeEnvironment();
@@ -33,6 +34,7 @@ function setup() {
     document: globalObj.document,
     divElement: el,
     d3,
+    data: dataset,
   };
 
   // Create fresh fixture/objects each time setup() is called.
@@ -168,6 +170,60 @@ test("barChart", t => {
     assert.equals(xAxisGroup.item(0).nodeName, "g", "with expected nodeName");
     assert.equals(yAxisGroup.length, 1, "One y-axis-group element is present");
     assert.equals(yAxisGroup.item(0).nodeName, "g", "with expected nodeName");
+
+    teardown(fixtures);
+    assert.end();
+  });
+  t.test("when drawAxis is called", assert => {
+    const fixtures = setup();
+    const div = fixtures.divElement;
+
+    const { d3, data } = fixtures;
+    const { select } = d3;
+
+    const container = select(div);
+    const barChart = barChartHof({ select });
+    container.datum(data).call(barChart());
+
+    const xAxisGroup = fixtures.document.getElementsByClassName("x-axis-group");
+    const xAxisPath = xAxisGroup.item(0).getElementsByClassName("domain");
+    const xAxisTicks = xAxisGroup.item(0).getElementsByClassName("tick");
+    const yAxisGroup = fixtures.document.getElementsByClassName("y-axis-group");
+    const yAxisPath = xAxisGroup.item(0).getElementsByClassName("domain");
+    const yAxisTicks = yAxisGroup.item(0).getElementsByClassName("tick");
+
+    assert.equals(
+      xAxisPath.length,
+      1,
+      "one path present within the x-axis-group"
+    );
+    assert.equals(xAxisPath.item(0).nodeName, "path", "with expected nodeName");
+    assert.equals(
+      xAxisTicks.length,
+      26,
+      "expected quantity of ticks are present within the x-axis-group"
+    );
+    assert.equals(
+      Array.from(xAxisTicks).filter(tick => tick.nodeName === "g").length,
+      26,
+      "with expected nodeName"
+    );
+    assert.equals(
+      yAxisPath.length,
+      1,
+      "one path present within the y-axis-group"
+    );
+    assert.equals(yAxisPath.item(0).nodeName, "path", "with expected nodeName");
+    assert.equals(
+      yAxisTicks.length,
+      13,
+      "expected quantity of ticks are present within the y-axis-group"
+    );
+    assert.equals(
+      Array.from(yAxisTicks).filter(tick => tick.nodeName === "g").length,
+      13,
+      "with expected nodeName"
+    );
 
     teardown(fixtures);
     assert.end();
