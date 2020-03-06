@@ -145,9 +145,15 @@ test("barChart", t => {
     const containerGroup = fixtures.document.getElementsByClassName(
       "container-group"
     );
-    const chartGroup = fixtures.document.getElementsByClassName("chart-group");
-    const xAxisGroup = fixtures.document.getElementsByClassName("x-axis-group");
-    const yAxisGroup = fixtures.document.getElementsByClassName("y-axis-group");
+    const chartGroup = containerGroup
+      .item(0)
+      .getElementsByClassName("chart-group");
+    const xAxisGroup = containerGroup
+      .item(0)
+      .getElementsByClassName("x-axis-group");
+    const yAxisGroup = containerGroup
+      .item(0)
+      .getElementsByClassName("y-axis-group");
 
     assert.equals(
       containerGroup.length,
