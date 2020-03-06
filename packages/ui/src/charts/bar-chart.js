@@ -1,6 +1,6 @@
 import { select as d3Select } from "d3";
-import xScale from "./charts/common/x-scale";
-import yScale from "./charts/common/y-scale";
+import xScale from "./common/x-scale";
+import yScale from "./common/y-scale";
 
 function hof({ select = d3Select } = {}) {
   return function barChart() {

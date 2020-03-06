@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import test from "tape";
-import d3WithoutTransition from "../d3-without-transition";
-import isNodeEnvironment from "../utils";
-import barChartHof from "../../src/bar-chart";
+import d3WithoutTransition from "../../d3-without-transition";
+import isNodeEnvironment from "../../utils";
+import barChartHof from "../../../src/charts/bar-chart";
 
 function setup() {
   const isNode = isNodeEnvironment();

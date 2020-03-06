@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { select } from "d3";
 import dataset from "../test/fixtures/data";
 
-import barChartHof from "./bar-chart";
+import barChartHof from "./charts/bar-chart";
 
 class ContBarChart extends Component {
   constructor(props) {
