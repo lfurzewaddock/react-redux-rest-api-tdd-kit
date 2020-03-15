@@ -234,4 +234,66 @@ test("barChart", t => {
     teardown(fixtures);
     assert.end();
   });
+
+  t.test("when drawBars is called", assert => {
+    const fixtures = setup();
+    const div = fixtures.divElement;
+
+    const { d3, data } = fixtures;
+    const { select } = d3;
+
+    const container = select(div);
+    const barChart = barChartHof({ select });
+    container.datum(data).call(barChart());
+
+    const chartGroup = fixtures.document.getElementsByClassName("chart-group");
+    const bars = chartGroup.item(0).getElementsByClassName("bar");
+
+    assert.equals(bars.length, 26, "26 bars present within the chart group");
+    assert.equals(
+      Array.from(bars).filter(bar => bar.nodeName === "rect").length,
+      26,
+      "with expected nodeName"
+    );
+    assert.equals(
+      Array.from(bars).filter(
+        bar => parseInt(bar.getAttribute("width"), 10) === 31
+      ).length,
+      26,
+      "with expected width"
+    );
+    assert.equals(
+      parseInt(bars.item(0).getAttribute("x"), 10),
+      10,
+      "First bar has expected X position"
+    );
+    assert.equals(
+      parseInt(bars.item(bars.length - 1).getAttribute("x"), 10),
+      860,
+      "Last bar has expected X position"
+    );
+    assert.equals(
+      parseInt(bars.item(0).getAttribute("y"), 10),
+      161,
+      "First bar has expected Y position"
+    );
+    assert.equals(
+      parseInt(bars.item(bars.length - 1).getAttribute("y"), 10),
+      447,
+      "Last bar has expected Y position"
+    );
+    assert.equals(
+      parseInt(bars.item(0).getAttribute("height"), 10),
+      289,
+      "First bar has expected height"
+    );
+    assert.equals(
+      parseInt(bars.item(bars.length - 1).getAttribute("height"), 10),
+      3,
+      "Last bar has expected height"
+    );
+
+    teardown(fixtures);
+    assert.end();
+  });
 });
