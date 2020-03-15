@@ -2,6 +2,10 @@
 import * as d3 from "d3";
 
 function d3WithNoTransition(document) {
+  // Required for .transition() in chain after querySelect/selectAll
+  d3.selection.prototype.transition = function transition() {
+    return this;
+  };
   // Source: https://eng.wealthfront.com/2017/10/26/testing-d3-transitions/
   const d3SelectionUnderTestProto = {};
   d3SelectionUnderTestProto.prototype = { ...d3.selection.prototype };
