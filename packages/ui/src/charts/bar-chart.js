@@ -71,6 +71,23 @@ function hof({ select = d3Select } = {}) {
     }
 
     /**
+     * Draws the bar elements within the chart group
+     * @private
+     */
+    function drawBars(data, xScaleFn, yScaleFn) {
+      select(".chart-group")
+        .selectAll(".bar")
+        .data(data)
+        .join("rect")
+        .transition()
+        .attr("class", "bar")
+        .attr("x", d => xScaleFn(d.letter))
+        .attr("y", d => yScaleFn(d.frequency))
+        .attr("width", xScaleFn.bandwidth())
+        .attr("height", d => chartHeight - yScaleFn(d.frequency));
+    }
+
+    /**
      * Builds containers for the chart, the axis and a wrapper for all of them
      * Also applies the Margin convention
      * @private
@@ -113,6 +130,7 @@ function hof({ select = d3Select } = {}) {
         const xAxis = buildXAxis(xScaleFn);
         const yAxis = buildYAxis(yScaleFn);
         drawAxis(xAxis, yAxis, chartHeight);
+        drawBars(data, xScaleFn, yScaleFn); // WIP
       });
     };
   };
